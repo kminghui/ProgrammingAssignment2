@@ -1,20 +1,20 @@
-##The pair of functions below is to cache the inverse of a matrix, which is 
-##potentially a time-consuming computation. 
+##The pair of functions below is to cache the inverse of a matrix, which is potentially a 
+##time-consuming computation. 
 
 ##The first function below creates a special "matrix" object that can cache its inverse.
+##Assumption : x is an invertible matrix.
 makeCacheMatrix <- function(x = matrix()) {
-  m <- NULL
+  i <- NULL
   set <- function(y) {
     x <<- y
-    m <<- NULL
+    i <<- NULL
   }
   get <- function() x
-  setinv <- function(solve) m <<- solve
-  getinv <- function() m
+  setinv <- function(inverse) i <<- inverse
+  getinv <- function() i
   list(set = set, get = get,
        setinv = setinv,
        getinv = getinv)
-
 }
 
 
@@ -24,14 +24,13 @@ makeCacheMatrix <- function(x = matrix()) {
 ##inverse of 'x'.
 
 cacheSolve <- function(x, ...) {
-## Return a matrix that is the inverse of 'x'
-  m <- x$getinv()
-  if(!is.null(m)) {
+  i <- x$getinv()
+  if(!is.null(i)) {
     message("getting cached data")
-    return(m)
+    return(i)
   }
   data <- x$get()
-  m <- solve(data, ...)
-  x$setinv(m)
-  m
+  i <- solve(data, ...)
+  x$setinv(i)
+  i
 }
